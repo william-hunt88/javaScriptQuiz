@@ -3,6 +3,8 @@ var quizContentEl = document.querySelector("#quiz-container");
 var startBtn = document.querySelector('#start-btn');
 console.log(startBtn);
 timer = 60
+highScores = [];
+score = 0;
 
 
 // first Question function
@@ -22,18 +24,48 @@ var firstQuestion = function () {
     quizContentEl.appendChild(q1);
 
     var a1 = document.createElement("button");
-    a1.textContent = "a";
+    a1.textContent = "objects";
     a1.className = "answer";
     quizContentEl.appendChild(a1);
+
+    var a2 = document.createElement("button");
+    a2.textContent = "strings";
+    a2.className = "answer";
+    quizContentEl.appendChild(a2);
+
+    var a3 = document.createElement("button");
+    a3.textContent = "integers";
+    a3.className = "answer";
+    quizContentEl.appendChild(a3);
+
+    var a4 = document.createElement("button");
+    a4.textContent = "all of the above"
+    a4.className = "correct-answer"
+    quizContentEl.appendChild(a4);
 };
 
 // timer function
 var timerAction = function() {
     timer--
-    console.log(timer);
     document.getElementById("timer").innerHTML = timer;
+    if(timer < 0){
+        document.getElementById("timer").innerHTML = 0;
+        window.alert("You're out of time");
+    };
+};
 
-}
+var checkAnswer = function (event) {
+    console.log("boobs");
+    targetEl = event.target;
+    wrong = document.querySelector(".answer");
+
+    if(targetEl.matches(".correct-answer")) {
+        score++
+        highScores.push(score);
+        console.log(highScores);
+    };
+
+};
 
 
 
@@ -45,6 +77,7 @@ var timerAction = function() {
 
 // Event Listeners
 startBtn.addEventListener("click" , firstQuestion);
+quizContentEl.addEventListener("click" , checkAnswer)
 
 
 
