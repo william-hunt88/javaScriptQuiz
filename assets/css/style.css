@@ -4,9 +4,22 @@
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
+    background-color: red;
+};
+
+body {
+    background-color: red;
 }
 
 header {
+    background-color: red;
     display: flex;
     justify-content: space-between;
+};
+
+#start-btn {
+    width: 200px;
+    padding: 10px 15px;
+    background-color: green;
+    border-radius: 12px;
 }

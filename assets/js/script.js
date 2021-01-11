@@ -24,22 +24,22 @@ var firstQuestion = function () {
     quizContentEl.appendChild(q1);
 
     var a1 = document.createElement("button");
-    a1.textContent = "objects";
+    a1.textContent = "1. objects";
     a1.className = "answer";
     quizContentEl.appendChild(a1);
 
     var a2 = document.createElement("button");
-    a2.textContent = "strings";
+    a2.textContent = "2. strings";
     a2.className = "answer";
     quizContentEl.appendChild(a2);
 
     var a3 = document.createElement("button");
-    a3.textContent = "integers";
+    a3.textContent = "3. integers";
     a3.className = "answer";
     quizContentEl.appendChild(a3);
 
     var a4 = document.createElement("button");
-    a4.textContent = "all of the above"
+    a4.textContent = "4. all of the above"
     a4.className = "correct-answer"
     quizContentEl.appendChild(a4);
 };
