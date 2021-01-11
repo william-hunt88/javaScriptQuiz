@@ -55,7 +55,6 @@ var timerAction = function() {
 };
 
 var checkAnswer = function (event) {
-    console.log("boobs");
     targetEl = event.target;
     wrong = document.querySelector(".answer");
 
