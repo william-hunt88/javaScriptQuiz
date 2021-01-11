@@ -1,23 +1,38 @@
 // variables defining spaces to be clicked and syuch
+var quizContentEl = document.querySelector("#quiz-container");
 var startBtn = document.querySelector('#start-btn');
 console.log(startBtn);
+timer = 60
 
 
-
-
-
-
-// Start button is clicked and opening description disappears
-
-// timer starts and 1st question is revealed
-
-
-
-
-
-
+// first Question function
 var firstQuestion = function () {
-    console.log("boobs")
+    // start timer
+    window.setInterval(timerAction, 1000);
+    // create a variable to represent the initial quiz message 
+    var initMessage = document.querySelector('#quiz-description')
+    // removes initial quiz message, making room for first question
+    initMessage.remove();
+    startBtn.remove();
+
+    //create DOM element for actual question
+    var q1 = document.createElement("h2");
+    q1.textContent = "Arrays in Javascript can be used to store what types of data?"
+    q1.className = "question";
+    quizContentEl.appendChild(q1);
+
+    var a1 = document.createElement("button");
+    a1.textContent = "a";
+    a1.className = "answer";
+    quizContentEl.appendChild(a1);
+};
+
+// timer function
+var timerAction = function() {
+    timer--
+    console.log(timer);
+    document.getElementById("timer").innerHTML = timer;
+
 }
 
 
