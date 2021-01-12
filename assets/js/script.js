@@ -5,6 +5,7 @@ console.log(startBtn);
 timer = 60
 highScores = [];
 score = 0;
+choicesDiv = document.querySelector('.choices')
 
 
 // first Question function
@@ -21,27 +22,31 @@ var firstQuestion = function () {
     var q1 = document.createElement("h2");
     q1.textContent = "Arrays in Javascript can be used to store what types of data?"
     q1.className = "question";
-    quizContentEl.appendChild(q1);
+    choicesDiv.appendChild(q1);
 
     var a1 = document.createElement("button");
     a1.textContent = "1. objects";
     a1.className = "answer";
-    quizContentEl.appendChild(a1);
+    choicesDiv.appendChild(a1);
 
     var a2 = document.createElement("button");
     a2.textContent = "2. strings";
     a2.className = "answer";
-    quizContentEl.appendChild(a2);
+    choicesDiv.appendChild(a2);
 
     var a3 = document.createElement("button");
     a3.textContent = "3. integers";
     a3.className = "answer";
-    quizContentEl.appendChild(a3);
+    choicesDiv.appendChild(a3);
 
     var a4 = document.createElement("button");
     a4.textContent = "4. all of the above"
     a4.className = "correct-answer"
-    quizContentEl.appendChild(a4);
+    choicesDiv.appendChild(a4);
+};
+
+var secondQuestion = function(){
+ 
 };
 
 // timer function
@@ -56,18 +61,21 @@ var timerAction = function() {
 
 var checkAnswer = function (event) {
     targetEl = event.target;
+    console.log(targetEl);
     wrong = document.querySelector(".answer");
 
     if(targetEl.matches(".correct-answer")) {
         score++
+        console.log(score);
         highScores.push(score);
-        console.log(highScores);
-    };
-
+        secondQuestion();
+    }else{
+        timer -= 10;
+    }
 };
 
 
-
+ 
 
 
 
@@ -76,7 +84,8 @@ var checkAnswer = function (event) {
 
 // Event Listeners
 startBtn.addEventListener("click" , firstQuestion);
-quizContentEl.addEventListener("click" , checkAnswer)
+choicesDiv.addEventListener("click" , checkAnswer)
+
 
 
 
