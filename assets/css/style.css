@@ -16,6 +16,9 @@ header {
     background-color: rgb(211, 248, 222);;
     display: flex;
     justify-content: space-between;
+    margin-left: 15px;
+    margin-right: 50px;
+    font-size: 3em;
 }
 
 #start-btn {
@@ -39,3 +42,7 @@ header {
     background-color: rgb(163, 184, 169);
     border-radius: 12px;
 }
+
+/* #timer {
+    font-size: 5em;
+} */
