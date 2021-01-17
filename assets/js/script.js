@@ -30,41 +30,38 @@ var questions = [
     },
 
     {
-        title: "An if statement condition shall be surrounded by which of the following",
-        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
-        answer: "2. ( )"
+        title: "Which HTML element do we put the Javascript inside of?",
+        choices: ["1. <link> ", "2. <javascript> ", "3. <script> ", "4. <js> "],
+        answer: "3. <script> "
     },
 
     {
-        title: "An if statement condition shall be surrounded by which of the following",
-        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
-        answer: "2. ( )"
+        title: "How does a for loop start?",
+        choices: ["1. for(i=0; i++)", "2. for(i=0; i<5)", "3. for(i=0; i<=5; i++)", "None of the above"],
+        answer: "3. for(i=0; i<=5; i++)"
     },
 
     {
-        title: "An if statement condition shall be surrounded by which of the following",
-        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
-        answer: "2. ( )"
+        title: "How can you add a javascript comment?",
+        choices: ["1. <!--comment-->", "2. //comment", "3. (comment) ", "4. all of the above"],
+        answer: "1. <!--comment-->"
     },
 
     {
-        title: "An if statement condition shall be surrounded by which of the following",
-        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
-        answer: "2. ( )"
+        title: "What keyword is used to define a variable?",
+        choices: ["1. variable ", "2. thisVariable", "3. this", "4. var"],
+        answer: "4. var"
     },
 
     {
-        title: "An if statement condition shall be surrounded by which of the following",
-        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
-        answer: "2. ( )"
+        title: "Javascript is the same as Java",
+        choices: ["1. true", "2. false",],
+        answer: "2. false"
     },
 
     {
-        title: "An if statement condition shall be surrounded by which of the following",
-        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
-        answer: "2. ( )"
+        title: "end",
     },
-
     
 ];
 
@@ -84,9 +81,6 @@ var firstQuestion = function () {
 
 var displayQuestion = function () {
     choicesDiv.innerHTML = " ";
-    if(questions[questionsIndex] === "undefined") {
-        quizEnd();
-    };
     var oneWrap = document.createElement("div");
     oneWrap.className = "oneWrap";
     message.innerHTML = ""
@@ -123,7 +117,7 @@ var displayQuestion = function () {
 var timerAction = function() {
     timer--
     document.getElementById("timer").innerHTML = timer;
-    if(timer === 0 || questions[questionsIndex] === undefined){
+    if(timer < 0){
         var timerDisplay = document.getElementById("timer").innerHTML = 0;
         timerDisplay.className = "timerDisplay";
         clearInterval(quizTimer);
@@ -137,8 +131,14 @@ var checkAnswer = function (event) {
     if(targetEl.textContent === questions[questionsIndex].answer) {
         score++
         questionsIndex++;
-        console.log(score);
-        displayQuestion();
+        if (questions[questionsIndex].title === "end") {
+            clearInterval(quizTimer)
+            var timerDisplay = document.getElementById("timer").innerHTML = " ";
+            endQuiz();
+        }else {
+            displayQuestion();
+        }
+
     }else{
         timer -= 10;
         questionsIndex++;
@@ -187,7 +187,6 @@ var playAgain = function(event) {
     targetEl = event.target;
     inputContent = document.querySelector(".input").value;
     if(targetEl.textContent === "Save"){
-        console.log("lineCheck");
         var thisScore = score + inputContent;
         highScores.push({
             initials: inputContent,
@@ -199,37 +198,31 @@ var playAgain = function(event) {
 
 var saveScores = function () {
     localStorage.setItem("highScores" , JSON.stringify(highScores));
-    debugger;
     viewHighScores();
 };
 
 var viewHighScores = function () {
+    // Sorts the stored high scores by highest score //
     var sortedScores = highScores.sort(function(a, b){
         return b.score - a.score;
     });
+    // Clears the div where the questions land //
     choicesDiv.innerHTML = " "
+
+    // creates ordered list for High Score items to populate //
+    var ol = document.createElement("ol");
+    ol.className = "scores-list"
+    message.appendChild(ol);
+
+    // for loop populating the high scores list with high scores pulled from local storage //
     for(var i = 0; i < sortedScores.length; i++) {
-        var ol = document.createElement("ol");
-        ol.className = "scores-list"
-        message.appendChild(ol);
         var scoresList = document.querySelector(".scores-list")
         var li = document.createElement("li");
-        console.log(highScores)
         li.textContent = sortedScores[i].initials + " - " + sortedScores[i].score;
         scoresList.appendChild(li);
-    }
+    };
 
 };
-
-// quizEnd - create input element 
-           // - grab value for local storage
-           // show score
-           // create an object for high score and initials 
-           // push that pobject to high scores array
-           // set local storage for array - stringify JSON.stringify
-           // get local storage for all highScores and display it on page with <ol> 
-
-
 
 // Event Listeners
 message.addEventListener("click", playAgain)
@@ -237,21 +230,3 @@ startBtn.addEventListener("click" , firstQuestion);
 choicesDiv.addEventListener("click" , checkAnswer);
 viewScores.addEventListener("click" , viewHighScores);
 
-
-
-
-
-
-// AS A coding boot camp student
-// I WANT to take a timed quiz on JavaScript fundamentals that stores high scores
-// SO THAT I can gauge my progress compared to my peers - GIVEN I am taking a code quiz
-// WHEN I click the start button
-// THEN a timer starts and I am presented with a question
-// WHEN I answer a question
-// THEN I am presented with another question
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-// WHEN the game is over
-// THEN I can save my initials and score
