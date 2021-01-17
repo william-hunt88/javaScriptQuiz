@@ -43,6 +43,16 @@ header {
     border-radius: 12px;
 }
 
-/* #timer {
-    font-size: 5em;
-} */
+.message {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+}
+
+.input {
+    margin: 20px;
+}
+
+.your-score {
+    text-align: center;
+}

@@ -2,12 +2,13 @@
 var quizContentEl = document.querySelector("#quiz-container");
 var startBtn = document.querySelector('#start-btn');
 var message = document.querySelector(".message");
-timer = 60
-highScores = JSON.parse(window.localStorage.getItem("highScores")) || [];  
-score = 0;
+var viewScores = document.querySelector(".view")
 choicesDiv = document.querySelector('.choices')
+highScores = JSON.parse(window.localStorage.getItem("highScores")) || []; 
+timer = 60
+score = 0;
 var questionsIndex = 0;
-
+var quizTimer = setInterval(timerAction, 1000);
 
 var questions = [
     {
@@ -19,15 +20,60 @@ var questions = [
     {
         title: "A javascript function should be enclosed with which of the following?",
         choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
-        answer: " 1. { } "
+        answer: "1. { } "
     },
+
+    {
+        title: "An if statement condition shall be surrounded by which of the following",
+        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
+        answer: "2. ( )"
+    },
+
+    {
+        title: "An if statement condition shall be surrounded by which of the following",
+        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
+        answer: "2. ( )"
+    },
+
+    {
+        title: "An if statement condition shall be surrounded by which of the following",
+        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
+        answer: "2. ( )"
+    },
+
+    {
+        title: "An if statement condition shall be surrounded by which of the following",
+        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
+        answer: "2. ( )"
+    },
+
+    {
+        title: "An if statement condition shall be surrounded by which of the following",
+        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
+        answer: "2. ( )"
+    },
+
+    {
+        title: "An if statement condition shall be surrounded by which of the following",
+        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
+        answer: "2. ( )"
+    },
+
+    {
+        title: "An if statement condition shall be surrounded by which of the following",
+        choices: ["1. { } ", "2. ( )", "3. < > ", "4. [ ] "],
+        answer: "2. ( )"
+    },
+
+    
 ];
 
 
 // first Question function
 var firstQuestion = function () {
     // start timer
-    window.setInterval(timerAction, 1000);
+    quizTimer = setInterval(timerAction, 1000);
+
     // create a variable to represent the initial quiz message 
     var initMessage = document.querySelector('#quiz-description')
     // removes initial quiz message, making room for first question
@@ -73,71 +119,106 @@ var displayQuestion = function () {
     choicesDiv.appendChild(oneWrap);
 };
 
-
-var secondQuestion = function(){
-    var oneWrap = document.querySelector(".oneWrap");
-    var wrong = document.querySelector(".wrong");
-    oneWrap.remove();
-    
-    var twoWrap = document.createElement("div");
-    twoWrap.className = "twoWrap";
-
-    var q2 = document.createElement("h2");
-    q2.textContent = "A javascript function should be enclosed with which of the following?"
-    q2.className = "question"
-    twoWrap.appendChild(q2);
-
-    var a1 = document.createElement("button")
-    a1.textContent = " { } "
-    a1.className = "correct-answer"
-    twoWrap.appendChild(a1);
-
-    var a2 = document.createElement("button")
-    a2.textContent = " ( ) ";
-    a2.className = "answer";
-    twoWrap.appendChild(a2);
-
-    var a3 = document.createElement("button")
-    a3.textContent = " [ ] ";
-    a3.className = "answer";
-    twoWrap.appendChild(a3);
-
-    var a4 = document.createElement("button")
-    a4.textContent = " < > ";
-    a4.className = "answer";
-    twoWrap.appendChild(a4);
-
-    choicesDiv.appendChild(twoWrap);
- 
-};
-
 // timer function
 var timerAction = function() {
     timer--
     document.getElementById("timer").innerHTML = timer;
-    if(timer < 0){
+    if(timer === 0 || questions[questionsIndex] === undefined){
         var timerDisplay = document.getElementById("timer").innerHTML = 0;
         timerDisplay.className = "timerDisplay";
-        localStorage.setItem("HighScore" , "score")
+        clearInterval(quizTimer);
+        endQuiz();
     };
 };
 
 var checkAnswer = function (event) {
     targetEl = event.target;
-    console.log(targetEl);
-    questionsIndex++;
     
     if(targetEl.textContent === questions[questionsIndex].answer) {
         score++
+        questionsIndex++;
+        console.log(score);
         displayQuestion();
     }else{
         timer -= 10;
+        questionsIndex++;
         var wrong = document.createElement("span")
         wrong.textContent = "Wrong!"
         wrong.className = "wrong"
         message.appendChild(wrong);
         setTimeout(displayQuestion, 1000);
     };
+};
+
+
+var endQuiz = function () {
+    //removes any remaining active quiz content
+    choicesDiv.remove();
+
+    // creates a container element for initals grab
+    var inputDiv = document.createElement("div")
+    inputDiv.className = "inputDiv"
+    quizContentEl.appendChild(inputDiv);
+    
+    //creates an input element for high scores initials
+    var initialsInput = document.createElement("INPUT")
+    initialsInput.setAttribute("type", "text");
+    initialsInput.setAttribute("placeholder", "your initials plz");
+    initialsInput.className = "input"
+
+    // creates a span element to display your score
+    var revealedScore = document.createElement("span")
+    revealedScore.textContent = "Your score is " + score;
+    revealedScore.className = "your-score";
+
+    // creates a button element to submit the initials
+    var submitBtn = document.createElement("button");
+    submitBtn.textContent = "Save";
+    message.appendChild(submitBtn);
+
+    // appends each of these elements to a div 
+    message.appendChild(revealedScore);
+    message.appendChild(initialsInput);
+    message.appendChild(submitBtn);
+};
+
+
+var playAgain = function(event) {
+    targetEl = event.target;
+    inputContent = document.querySelector(".input").value;
+    if(targetEl.textContent === "Save"){
+        console.log("lineCheck");
+        var thisScore = score + inputContent;
+        highScores.push({
+            initials: inputContent,
+            score: score
+        });
+        saveScores();
+    }
+};
+
+var saveScores = function () {
+    localStorage.setItem("highScores" , JSON.stringify(highScores));
+    debugger;
+    viewHighScores();
+};
+
+var viewHighScores = function () {
+    var sortedScores = highScores.sort(function(a, b){
+        return b.score - a.score;
+    });
+    choicesDiv.innerHTML = " "
+    for(var i = 0; i < sortedScores.length; i++) {
+        var ol = document.createElement("ol");
+        ol.className = "scores-list"
+        message.appendChild(ol);
+        var scoresList = document.querySelector(".scores-list")
+        var li = document.createElement("li");
+        console.log(highScores)
+        li.textContent = sortedScores[i].initials + " - " + sortedScores[i].score;
+        scoresList.appendChild(li);
+    }
+
 };
 
 // quizEnd - create input element 
@@ -151,8 +232,10 @@ var checkAnswer = function (event) {
 
 
 // Event Listeners
+message.addEventListener("click", playAgain)
 startBtn.addEventListener("click" , firstQuestion);
-choicesDiv.addEventListener("click" , checkAnswer)
+choicesDiv.addEventListener("click" , checkAnswer);
+viewScores.addEventListener("click" , viewHighScores);
 
 
 
