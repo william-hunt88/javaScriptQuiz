@@ -56,3 +56,9 @@ header {
 .your-score {
     text-align: center;
 }
+
+.highScores{
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+}

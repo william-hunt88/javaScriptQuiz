@@ -2,8 +2,9 @@
 var quizContentEl = document.querySelector("#quiz-container");
 var startBtn = document.querySelector('#start-btn');
 var message = document.querySelector(".message");
-var viewScores = document.querySelector(".view")
-choicesDiv = document.querySelector('.choices')
+var viewScores = document.querySelector(".view");
+var inputDiv = document.querySelector(".inputDiv");
+choicesDiv = document.querySelector('.choices');
 highScores = JSON.parse(window.localStorage.getItem("highScores")) || []; 
 timer = 60
 score = 0;
@@ -54,9 +55,15 @@ var questions = [
     },
 
     {
-        title: "Javascript is the same as Java",
-        choices: ["1. true", "2. false",],
-        answer: "2. false"
+        title: "How do you write 'Hello World' in an alert box?",
+        choices: ["1. alert('Hello World')" , "2. alertBox('Hello World')" , "3. msg('Hello World')", "4. msgBox('Hello World')"],
+        answer: "1. alert('Hello World')"
+    },
+
+    {
+        title: "How to write an IF statement in JavaScript?",
+        choices: ["1. if(i===5)", "2. if i == 5", "3. if 5 i then", "4. if i ===5"],
+        answer: "1. if(i===5)"
     },
 
     {
@@ -107,7 +114,7 @@ var displayQuestion = function () {
     
     var a4 = document.createElement("button");
     a4.textContent = questions[questionsIndex].choices[3];
-    a4.className = "correct-answer"
+    a4.className = "answer"
     oneWrap.appendChild(a4);
     
     choicesDiv.appendChild(oneWrap);
@@ -142,12 +149,19 @@ var checkAnswer = function (event) {
     }else{
         timer -= 10;
         questionsIndex++;
-        var wrong = document.createElement("span")
-        wrong.textContent = "Wrong!"
-        wrong.className = "wrong"
-        message.appendChild(wrong);
-        setTimeout(displayQuestion, 1000);
-    };
+        if (questions[questionsIndex].title === "end") {
+            clearInterval(quizTimer)
+            var timerDisplay = document.getElementById("timer").innerHTML = " ";
+            endQuiz();
+        } else {
+            var wrong = document.createElement("span")
+            wrong.textContent = "Wrong!"
+            wrong.className = "wrong"
+            message.appendChild(wrong);
+            setTimeout(displayQuestion, 1000);
+        };
+
+        }
 };
 
 
